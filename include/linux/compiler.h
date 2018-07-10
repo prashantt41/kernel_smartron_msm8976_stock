@@ -70,7 +70,7 @@ extern void __chk_io_ptr(const volatile void __iomem *);
  */
 
 struct ftrace_branch_data {
-	const char *func;
+		const char *func;
 	const char *file;
 	unsigned line;
 	union {
@@ -109,7 +109,7 @@ void ftrace_likely_update(struct ftrace_branch_data *f, int val, int expect);
 			};						\
 			______r = likely_notrace(x);			\
 			ftrace_likely_update(&______f, ______r, expect); \
-			______r;					\
+				______r;					\
 		})
 
 /*
@@ -131,7 +131,7 @@ void ftrace_likely_update(struct ftrace_branch_data *f, int val, int expect);
  */
 #define if(cond, ...) __trace_if( (cond , ## __VA_ARGS__) )
 #define __trace_if(cond) \
-	if (__builtin_constant_p((cond)) ? !!(cond) :			\
+	if (__builtin_constant_p(!!(cond)) ? !!(cond) :			\
 	({								\
 		int ______r;						\
 		static struct ftrace_branch_data			\
@@ -148,7 +148,7 @@ void ftrace_likely_update(struct ftrace_branch_data *f, int val, int expect);
 	}))
 #endif /* CONFIG_PROFILE_ALL_BRANCHES */
 
-#else
+	#else
 # define likely(x)	__builtin_expect(!!(x), 1)
 # define unlikely(x)	__builtin_expect(!!(x), 0)
 #endif
